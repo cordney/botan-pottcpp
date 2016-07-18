@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Botan - Your C++ Crypto Library of Choice</title>
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css">
+
+		<!-- Theme used for syntax highlighting of code -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section>
+					<h1>Botan</h1>
+					<h3>Your C++ Crypto Library Of Choice</h3>
+					<p>
+						<small>Slides by <a href="http://twitter.com/securitykernel">@securitykernel</a></small>
+					</p>
+				</section>
+				<section>
+					<h2>Japanese for "peony"</h2>
+					<img src="img/peony.jpg" width="70%" height="70%" />
+				</section>
+				<section>
+					<ul>
+						<li>C++11</li>
+						<li>First release 2001</li>
+						<li>License: Simplified BSD</li>
+						<li>Handbook, Doxygen API doc</li>
+						<li>Development on GitHub</li>
+						<li>1 Maintainer, several contributors (including me :))</li>
+					</ul>				
+				</section>
+				<section>
+					<h2>2 Branches</h2>
+					<ul>
+						<li>Stable (1.10)</li>
+						<ul>
+							<li>C++98</li>
+						</ul>
+						<li>Stable (1.11)</li>
+						<ul>
+							<li>API changes possible</li>
+							<li>C++11 compiler required</li>
+							<li>Monthly releases</li>
+							<li>Will eventually become 2.0</li>
+						</ul>
+					</ul>
+				</section>
+				<section>
+					<section>
+						<h2>Features</h2>
+					</section>
+					<section>
+						<h2>Block Ciphers</h2>
+						<p>e.g., AES-GCM, ChaCha20Poly1305</p>
+					</section>
+					<section>
+						<h2>TLS/PKI</h2>
+						<ul>
+							<li>TLS/DTLS 1.0-1.2</li>
+							<li>X.509v3 certs and CRLs</li>
+							<li>PKIX cert path validation</li>
+							<li>OCSP</li>
+							<li>PKCS#10 CSRs</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Public Key Crypto</h2>
+						<ul>
+							<li>e.g., RSA and ECC (NIST, Brainpool, Curve25519)</li>
+							<li>QC-resistant McEliece KEM</li>
+							<li>QC-resistant Merkle signatures (coming soon)</li>
+						</ul>
+					</section>
+					<section>
+						<h2>Other</h2>
+						<ul>
+							<li>Hash functions: e.g., SHA-1, SHA-2, SHA-3</li>
+							<li>KDFs: e.g., PBKDF2</li>
+							<li>Password hashing: e.g., bcrypt, passhash9 (PBKDF-based)</li>
+							<li>TPM 1.2, PKCS#11 support</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h2>Platforms</h2>
+					<ul>
+						<p>AIX, Android, Cygwin, Darwin (iOS/macOS),
+						<p>BSD, Haiku, HP-UX, Hurd, IRIX, Linux, Mingw,
+						<p>QNX, Solaris, Windows</p>
+					</ul>
+				</section>
+				<section>
+					<h2>Bindings</h2>
+					<ul>
+						<li>C89</li>
+						<li>Python</li>
+						<li>OCaml</li>
+						<li>Node.js</li>
+					</ul>
+				</section>
+				<section>
+					<h2>Design</h2>
+					<ul>
+						<li>Divided into modules, e.g., AES, ECDSA, TLS</li>
+						<li>Well-defined interfaces, e.g., <i>BlockCipher</i>, <i>HashFunction</i></li>
+						<li>3 Components:</li>
+						<ul>
+							<li>Library</li>
+							<li>CLI</li>
+							<li>Testsuite (82% coverage)</li>
+						</ul>
+						<li>Engine-like concept ("providers"), e.g., OpenSSL provider</li>
+					</ul>
+				</section>
+				<section data-markdown>
+					<h2>Building</h2>
+					<pre><code class="bash">
+						./configure.py --help
+						./configure.py [--enable-modules=] [--disable-modules=] ...
+						make
+						./botan-test
+						# Tests all ok
+						./botan
+					</code></pre>
+				</section>
+				<section>
+					<h2>ToDo: Example RSA/ECDSA encrypt, sign</h2>
+				</section>
+				<section>
+					<h2>ToDo: Example SHA-256</h2>
+				</section>
+				<section>
+					<h2>Random Number Generation</h2>
+					<ul>
+						<li>HMAC_RNG (RFC 5869 variant) & HMAC_DRBG (NIST)</li>
+						<li>AutoSeeded_RNG (HMAC_DRBG, automatically seeded)</li>
+						<li>Entropy sources:</li>
+						<ul>
+							<li>/dev/random / CryptGenRandom</li>
+							<li>Timestamp (highres)</li>
+							<li>rdrand</li>
+							<li>rdseed</li>
+							<li>Can feed arbitrary additional entropy</li>
+						</ul>
+						<li>Pass RandomNumberGenerator& whenever random numbers needed</li>
+				</section>
+				<section>
+					<h2>ToDo: Crypto++ vs. Botan</h2>
+				</section>
+				<section>
+					<h2>End. Questions?</h2>
+				</section>
+			</div>
+		</div>	
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+			// More info https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				history: true,
+
+				// More info https://github.com/hakimel/reveal.js#dependencies
+				dependencies: [
+					{ src: 'plugin/markdown/marked.js' },
+					{ src: 'plugin/markdown/markdown.js' },
+					{ src: 'plugin/notes/notes.js', async: true },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+				]
+			});
+		</script>
+	</body>
+</html>
