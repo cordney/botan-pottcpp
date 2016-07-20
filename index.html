@@ -163,28 +163,77 @@ bool ok = verifier.verify_message(in, sig);
 					</section>
 				</section>
 				</section>
-				<section data-markdown>
+				<section>
 					<h2>Building</h2>
 					<pre><code class="bash">
-						./configure.py --help
-						./configure.py [--enable-modules=] [--disable-modules=]
-								[--with-openssl] ...
-						make
-						./botan-test
-						# Tests all ok
-						./botan
+./configure.py --help
+./configure.py [--enable-modules=] [--disable-modules=]
+		[--with-openssl] ...
+make
+./botan-test
+# Tests all ok
+./botan
 					</code></pre>
 				</section>
 				<section>
-					<h2>ToDo: Example RSA/ECDSA encrypt, sign</h2>
-				</section>
-				<section>
-					<h2>ToDo: Example SHA-256</h2>
+					<section>
+					<h2>Examples</h2>
+					</section>
+					<section>
+						<h2>ECDSA sign</h2>
+						<pre><code class="cpp">
+
+Botan::AutoSeeded_RNG rng;
+Botan::ECDSA_PrivateKey key(rng, Botan::EC_Group("brainpool512r1"));
+
+Botan::secure_vector&lt;Botan::byte&gt; in { 0x01, 0x02, 0x03 };
+Botan::PK_Signer signer(key, "EMSA1(SHA-256)", Botan::IEEE_1363);
+std::vector&lt;Botan::byte&gt; sig = signer.sign_message(in, rng);
+
+Botan::PK_Verifier verifier(key, "EMSA1(SHA-256)", Botan::IEEE_1363);
+bool ok = verifier.verify_message(in, sig);
+						</code></pre>
+					</section>
+					<section>
+						<h2>AES encrypt</h2>
+						<pre><code class="cpp">
+std::unique_ptr&lt;Botan::AEAD_Mode&gt; enc(
+	Botan::get_aead("AES-256/GCM", Botan::ENCRYPTION));
+
+Botan::AutoSeeded_RNG rng;
+Botan::secure_vector&lt;uint8_t&gt; key = rng.random_vec(32);
+Botan::secure_vector&lt;uint8_t&gt; nonce = rng.random_vec(32);
+
+enc->set_key(key);
+//enc->set_associated_data_vec(ad);
+enc->start(nonce);
+
+Botan::secure_vector&lt;uint8_t&gt; buf(32, 0xFE);
+enc->finish(buf); // encrypts in-place
+						</code></pre>
+					</section>
+					<section>
+						<h2>SHA-256</h2>
+						<pre><code class="cpp">
+std::unique_ptr&lt;Botan::HashFunction&gt; sha256(
+	Botan::HashFunction::create("SHA-256"));
+sha256->update("123");
+sha256->update("456");
+Botan::secure_vector&lt;uint8_t&gt; digest = sha256->final();
+						</code></pre>
+					</section>
+					<section>
+						<h2>More Examples?</h2>
+						<ul>
+							<li>https://botan.randombit.net/manual/</li>
+							<li><i>src/tests/*</i></li>
+						</ul>
+					</section>
 				</section>
 				<section>
 					<h2>Random Number Generation</h2>
 					<ul>
-						<li>HMAC_RNG (RFC 5869 variant) & HMAC_DRBG (NIST)</li>
+						<li>HMAC_RNG (RFC 5869 variant), HMAC_DRBG (NIST), System_RNG</li>
 						<li>AutoSeeded_RNG (HMAC_DRBG, automatically seeded)</li>
 						<li>Entropy sources:</li>
 						<ul>
@@ -200,7 +249,10 @@ bool ok = verifier.verify_message(in, sig);
 					<h2>ToDo: Crypto++ vs. Botan</h2>
 				</section>
 				<section>
-					<h2>End. Questions?</h2>
+					<h2>Please contribute!</h2>
+				</section>
+				<section>
+					<h2>Thanks. Questions?</h2>
 				</section>
 			</div>
 		</div>	
