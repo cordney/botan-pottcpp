@@ -125,7 +125,7 @@
 							<li>CLI</li>
 							<li>Testsuite (82% coverage)</li>
 						</ul>
-						<li>Engine-like concept ("providers"), e.g., OpenSSL provider (also: PKCS#11, TPM)</li>
+						<li>Engine-like concept ("providers"), e.g., OpenSSL</li>
 					</ul>
 				</section>
 				<section>
@@ -162,6 +162,20 @@ bool ok = verifier.verify_message(in, sig);
 					</code></pre>
 					</section>
 				</section>
+				<section>
+					<h2>Random Number Generation</h2>
+					<ul>
+						<li>HMAC_RNG (RFC 5869 variant), HMAC_DRBG (NIST), System_RNG</li>
+						<li>AutoSeeded_RNG (HMAC_DRBG, automatically seeded)</li>
+						<li>Entropy sources:</li>
+						<ul>
+							<li>/dev/random / CryptGenRandom</li>
+							<li>Timestamp (highres)</li>
+							<li>rdrand</li>
+							<li>rdseed</li>
+							<li>Can feed arbitrary additional entropy</li>
+						</ul>
+						<li>Pass RandomNumberGenerator& whenever random numbers needed</li>
 				</section>
 				<section>
 					<h2>Building</h2>
@@ -231,28 +245,36 @@ Botan::secure_vector&lt;uint8_t&gt; digest = sha256->final();
 					</section>
 				</section>
 				<section>
-					<h2>Random Number Generation</h2>
+					<h2>Botan vs. Crypto++</h2>
+					<pre><code class="cpp">
+CryptoPP::GCM&lt;CryptoPP::AES&gt;::Encryption e;
+e.SetKeyWithIV( key, sizeof(key), iv, sizeof(iv) );
+
+CryptoPP::AuthenticatedEncryptionFilter ef( e, 
+	new CryptoPP::StringSink( cipher ), false, TAG_SIZE );
+ef.ChannelPut( "AAD", (const byte*)adata.data(), adata.size() );
+ef.ChannelMessageEnd("AAD");
+
+ef.ChannelPut( "", (const byte*)pdata.data(), pdata.size() );
+ef.ChannelMessageEnd("");
+
+CryptoPP::StringSource( cipher, true, 
+	new CryptoPP::HexEncoder( 
+	  new CryptoPP::StringSink( encoded ), true, 16, " " ) );
+					</code></pre>
+				</section>
+				<section>
+					<h2>Contributions welcome!</h2>
 					<ul>
-						<li>HMAC_RNG (RFC 5869 variant), HMAC_DRBG (NIST), System_RNG</li>
-						<li>AutoSeeded_RNG (HMAC_DRBG, automatically seeded)</li>
-						<li>Entropy sources:</li>
-						<ul>
-							<li>/dev/random / CryptGenRandom</li>
-							<li>Timestamp (highres)</li>
-							<li>rdrand</li>
-							<li>rdseed</li>
-							<li>Can feed arbitrary additional entropy</li>
-						</ul>
-						<li>Pass RandomNumberGenerator& whenever random numbers needed</li>
+						<li>Review code</li>
+						<li>Use static analyzers</li>
+						<li>Fuzz (see https://github.com/randombit/botan-fuzzers)</li>
+						<li>...</li>
+						<li>More: doc/todo.rst</li>
+					</ul>
 				</section>
 				<section>
-					<h2>ToDo: Crypto++ vs. Botan</h2>
-				</section>
-				<section>
-					<h2>Please contribute!</h2>
-				</section>
-				<section>
-					<h2>Thanks. Questions?</h2>
+					<h2>Thank you. Questions?</h2>
 				</section>
 			</div>
 		</div>	
