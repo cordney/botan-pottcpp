@@ -125,14 +125,39 @@
 							<li>CLI</li>
 							<li>Testsuite (82% coverage)</li>
 						</ul>
-						<li>Engine-like concept ("providers"), e.g., OpenSSL provider</li>
+						<li>Engine-like concept ("providers"), e.g., OpenSSL provider (also: PKCS#11, TPM)</li>
 					</ul>
+				</section>
+				<section>
+					<section>
+					<h2>Providers</h2>
+					<ul>
+						<li>Idea: Provide alternative implementations of certain algorithms</li>
+						<li>Choose implementation variant at runtime</li>
+						<li>Available providers choosen during configure, compiled in</li>
+						<li>"base" provider (default): Botan's software implementation</li>
+						<li>Priority of providers compile-time configurable</li>
+					</ul>
+					</section>
+					<section>
+					<h2>Available Providers</h2>
+					<ul>
+						<li>OpenSSL: block ciphers, ECDSA, hash functions, RC4, RSA</li>
+						<li>PKCS11: ECDH, ECDSA, RNG, RSA, X.509</li>
+						<li>TPM (WIP)</li>
+					</ul>
+					<pre><code class="cpp">
+# sample code
+					</code></pre>
+					</section>
+				</section>
 				</section>
 				<section data-markdown>
 					<h2>Building</h2>
 					<pre><code class="bash">
 						./configure.py --help
-						./configure.py [--enable-modules=] [--disable-modules=] ...
+						./configure.py [--enable-modules=] [--disable-modules=]
+								[--with-openssl] ...
 						make
 						./botan-test
 						# Tests all ok
