@@ -248,16 +248,28 @@ Botan::secure_vector&lt;uint8_t&gt; digest = sha256->final();
 					<h2>Botan vs. Crypto++</h2>
 					<table>
 						<tr>
-							<td>Academic interfaces</td>
 							<td>Practical interfaces</td>
+							<td>Academic interfaces</td>
 						</tr>
 						<tr>
 							<td>TLS</td>
 							<td>No TLS</td>
 						</tr>
 						<tr>
-							<td>Travis, Appveyor CI</td>
-							<td>No CI</td>
+							<td>X.509</td>
+							<td>No X.509</td>
+						</tr>
+						<tr>
+							<td>PKCS#11, TPM support</td>
+							<td>No HSM support</td>
+						</tr>
+						<tr>
+							<td>Provider concept</td>
+							<td>No such thing</td>
+						</tr>
+						<tr>
+							<td>Bindings</td>
+							<td>No bindings</td>
 						</tr>
 					</table>
 				</section>
