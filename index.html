@@ -246,21 +246,38 @@ Botan::secure_vector&lt;uint8_t&gt; digest = sha256->final();
 				</section>
 				<section>
 					<h2>Botan vs. Crypto++</h2>
+					<table>
+						<tr>
+							<td>Academic interfaces</td>
+							<td>Practical interfaces</td>
+						</tr>
+						<tr>
+							<td>TLS</td>
+							<td>No TLS</td>
+						</tr>
+						<tr>
+							<td>Travis, Appveyor CI</td>
+							<td>No CI</td>
+						</tr>
+					</table>
+				</section>
+				<section>
+					<h2>Crypto++: AES encrypt</h2>
 					<pre><code class="cpp">
 CryptoPP::GCM&lt;CryptoPP::AES&gt;::Encryption e;
-e.SetKeyWithIV( key, sizeof(key), iv, sizeof(iv) );
+e.SetKeyWithIV(key, sizeof(key), iv, sizeof(iv));
 
-CryptoPP::AuthenticatedEncryptionFilter ef( e, 
-	new CryptoPP::StringSink( cipher ), false, TAG_SIZE );
-ef.ChannelPut( "AAD", (const byte*)adata.data(), adata.size() );
+CryptoPP::AuthenticatedEncryptionFilter ef(e, 
+	new CryptoPP::StringSink( cipher ), false, TAG_SIZE);
+ef.ChannelPut("AAD", (const byte*)adata.data(), adata.size());
 ef.ChannelMessageEnd("AAD");
 
-ef.ChannelPut( "", (const byte*)pdata.data(), pdata.size() );
+ef.ChannelPut("", (const byte*)pdata.data(), pdata.size());
 ef.ChannelMessageEnd("");
 
-CryptoPP::StringSource( cipher, true, 
+CryptoPP::StringSource(cipher, true, 
 	new CryptoPP::HexEncoder( 
-	  new CryptoPP::StringSink( encoded ), true, 16, " " ) );
+	  new CryptoPP::StringSink(encoded), true, 16, " " ));
 					</code></pre>
 				</section>
 				<section>
