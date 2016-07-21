@@ -1,0 +1,5 @@
+Slides and sample code of a talk on the Botan (https://botan.randombit.net)
+crypto library held at C++ user group meeting in Bochum, Germany.
+
+Slides: open index.html in browser
+Examples: find *.cpp files in examples/, build with cmake && make
